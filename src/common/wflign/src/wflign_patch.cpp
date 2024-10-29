@@ -206,6 +206,12 @@ void do_wfa_patch_alignment(
         //auto rev_score = wf_aligner.getAlignmentScore();
         //rev_aln.ok = (rev_score > fwd_score && rev_status == WF_STATUS_ALG_COMPLETED);
         rev_aln.ok = (rev_status == WF_STATUS_ALG_COMPLETED);
+
+        // If both the forward and reverse alignments are okay, we break here to avoid an occasional infinite loop
+        if (!rev_aln.ok && !aln.ok) {
+            break;
+        }
+        
         rev_aln.is_rev = true;
 
         if (rev_aln.ok) {
